@@ -2,14 +2,17 @@ package com.nowcode.community.Controller;
 
 import com.nowcode.community.dao.AlphaDao;
 import com.nowcode.community.service.AlphaService;
+import com.nowcode.community.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -101,9 +104,9 @@ public class AlphaController {
     @ResponseBody
     public Map<String, Object> getEmp() {
         Map<String, Object> emp = new HashMap<>();
-        emp.put("name","张三");
-        emp.put("age","23");
-        emp.put("salary","8000.00");
+        emp.put("name", "张三");
+        emp.put("age", "23");
+        emp.put("salary", "8000.00");
         return emp;
     }
 
@@ -112,15 +115,53 @@ public class AlphaController {
     public List<Map<String, Object>> getEmps() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> emp = new HashMap<>();
-        emp.put("name","张一");
-        emp.put("age","23");
-        emp.put("salary","8000.00");
+        emp.put("name", "张一");
+        emp.put("age", "23");
+        emp.put("salary", "8000.00");
         list.add(emp);
         emp = new HashMap<>();
-        emp.put("name","张三");
-        emp.put("age","24");
-        emp.put("salary","9000.00");
+        emp.put("name", "张三");
+        emp.put("age", "24");
+        emp.put("salary", "9000.00");
         list.add(emp);
         return list;
     }
+
+    //cookie
+    @RequestMapping(path = "/cookie/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("code", CommunityUtil.generateUUID());
+        //设置访问路径范围
+        cookie.setPath("/community/alpha");
+        //默认连接关闭则消失，设置有效时间，单位秒，十分钟
+        cookie.setMaxAge(60 * 10);
+        response.addCookie(cookie);
+        return "set cookie";
+    }
+
+    @RequestMapping(path = "/cookie/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCookie(@CookieValue("code") String code) {
+        System.out.println(code);
+        return "get cookie";
+    }
+
+    //session
+    @RequestMapping(path = "/session/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setSession(HttpSession session) {
+        session.setAttribute("id", 1);
+        session.setAttribute("name", "Test");
+        return "set session";
+    }
+
+    @RequestMapping(path = "/session/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSession(HttpSession session) {
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        return "get session";
+    }
+
 }

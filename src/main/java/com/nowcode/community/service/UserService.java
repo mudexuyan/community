@@ -1,6 +1,8 @@
 package com.nowcode.community.service;
 
+import com.nowcode.community.dao.LoginTicketMapper;
 import com.nowcode.community.dao.UserMapper;
+import com.nowcode.community.entity.LoginTicket;
 import com.nowcode.community.entity.User;
 import com.nowcode.community.util.CommunityConstant;
 import com.nowcode.community.util.CommunityUtil;
@@ -24,6 +26,9 @@ public class UserService implements CommunityConstant {
 
     @Autowired
     private MailClient mailClient;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -97,5 +102,57 @@ public class UserService implements CommunityConstant {
             return ACTIVATION_SUCCESS;
         } else
             return ACTIVATION_FAILURE;
+    }
+
+    public Map<String, Object> login(String username, String password, int expiredSeconds) {
+        Map<String, Object> map = new HashMap<>();
+
+        if (StringUtils.isBlank(username)) {
+            map.put("usernameMsg", "账号不能为空");
+            return map;
+        }
+        if (StringUtils.isBlank(password)) {
+            map.put("password<sg", "密码不能为空");
+            return map;
+        }
+
+        User user = userMapper.selectByName(username);
+        //验证账号
+        if (user == null) {
+            map.put("usernameMsg", "账号不存在");
+            return map;
+        }
+        //验证状态
+        if (user.getStatus() == 0) {
+            map.put("usernameMsg", "账号未激活");
+            return map;
+        }
+        password = CommunityUtil.md5(password + user.getSalt());
+        if (!user.getPassword().equals(password)) {
+            map.put("passwordMsg", "密码错误");
+            return map;
+        }
+        //生成登录session（保存在数据库）凭证，以便连续一次连接多次请求
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+        map.put("ticket", loginTicket.getTicket());
+        return map;
+    }
+
+    public void logout(String ticket){
+        loginTicketMapper.updateStatus(ticket,1);
+    }
+
+    public LoginTicket findLoginTicket(String ticket){
+        return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    public int updateHeader(int userId,String headerUrl){
+        return userMapper.updateHeader(userId,headerUrl);
     }
 }
