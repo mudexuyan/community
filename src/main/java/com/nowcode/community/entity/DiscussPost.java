@@ -10,7 +10,7 @@ public class DiscussPost {
     private int type;
     private int status;
     private Date createTime;
-    private int commentTime;
+    private int commentCount;
     private double score;
 
     public int getId() {
@@ -69,12 +69,12 @@ public class DiscussPost {
         this.createTime = createTime;
     }
 
-    public int getCommentTime() {
-        return commentTime;
+    public int getCommentCount() {
+        return commentCount;
     }
 
-    public void setCommentTime(int commentTime) {
-        this.commentTime = commentTime;
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     public double getScore() {
@@ -95,7 +95,7 @@ public class DiscussPost {
                 ", type=" + type +
                 ", status=" + status +
                 ", createTime=" + createTime +
-                ", commentTime=" + commentTime +
+                ", commentCount=" + commentCount +
                 ", score=" + score +
                 '}';
     }

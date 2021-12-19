@@ -100,7 +100,7 @@ public class UserController {
                 os.write(buffer, 0, b);
             }
         } catch (IOException e) {
-            logger.error("读取投降失败： " + e.getMessage());
+            logger.error("读取头像失败： " + e.getMessage());
         }
 
     }
