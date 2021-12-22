@@ -13,6 +13,13 @@ public class RedisKeyUtil {
     //关注的目标，偶像
     private static final String PREFIX_FOLLOWER = "follower";
 
+    //验证码
+    private static final String PREFIX_KAPTCHA = "kaptcha";
+    //凭证
+    private static final String PREFIX_TICKET = "ticket";
+    //缓存用户
+    private static final String PREFIX_USER = "user";
+
     //某个实体的赞
     //like:entity:entityType:entityId   -》 set(userId)，帖子和评论保存点赞用户的id
     public static String getPrefixEntityLike(int entityType, int entityId) {
@@ -35,5 +42,21 @@ public class RedisKeyUtil {
     //follower:entityType:entityId->zst(userId,now)
     public static String getPrefixFollower(int entityType, int entityId) {
         return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;
+    }
+
+    //登录验证码
+    //临时凭证
+    public static String getPrefixKaptcha(String owner) {
+        return PREFIX_KAPTCHA + SPLIT + owner;
+    }
+
+    //登录凭证ticket
+    public static String getPrefixTicket(String ticket) {
+        return PREFIX_TICKET + SPLIT + ticket;
+    }
+
+    //缓存用户
+    public static String getPrefixUser(int userId) {
+        return PREFIX_USER + SPLIT + userId;
     }
 }

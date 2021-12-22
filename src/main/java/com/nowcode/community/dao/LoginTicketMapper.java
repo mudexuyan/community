@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import sun.font.TrueTypeFont;
 
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
     //这种写法最好加测试
     @Insert({
