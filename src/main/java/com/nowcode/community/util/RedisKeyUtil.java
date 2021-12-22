@@ -4,10 +4,14 @@ package com.nowcode.community.util;
 public class RedisKeyUtil {
 
     private static final String SPLIT = ":";
-
+    //帖子或评论
     private static final String PREFIX_ENTITY_LIKE = "like:entity";
 
     private static final String PREFIX_USER_LIKE = "like:user";
+    //主动关注别人的用户，粉丝
+    private static final String PREFIX_FOLLOWEE = "followee";
+    //关注的目标，偶像
+    private static final String PREFIX_FOLLOWER = "follower";
 
     //某个实体的赞
     //like:entity:entityType:entityId   -》 set(userId)，帖子和评论保存点赞用户的id
@@ -19,5 +23,17 @@ public class RedisKeyUtil {
     //like:user:userId -> int
     public static String getPrefixUserLike(int userId) {
         return PREFIX_USER_LIKE + SPLIT + userId;
+    }
+
+    //用户关注的实体，可能是偶像、评论、帖子
+    //followee:userId:entityType -> zset(entityId,now)
+    public static String getPrefixFollowee(int followeeId, int entityType) {
+        return PREFIX_FOLLOWEE + SPLIT + followeeId + SPLIT + entityType;
+    }
+
+    //某个实体（用户、帖子）拥有的粉丝
+    //follower:entityType:entityId->zst(userId,now)
+    public static String getPrefixFollower(int entityType, int entityId) {
+        return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;
     }
 }

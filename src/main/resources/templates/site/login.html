@@ -28,7 +28,7 @@
 								<a class="nav-link" href="../index.html">首页</a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical">
-								<a class="nav-link position-relative" href="site/letter.html">消息<span class="badge badge-danger">12</span></a>
+								<a class="nav-link position-relative" href="letter.html">消息<span class="badge badge-danger">12</span></a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical">
 								<a class="nav-link" href="register.html">注册</a>
@@ -67,7 +67,6 @@
 					<div class="form-group row">
 						<label for="username" class="col-sm-2 col-form-label text-right">账号:</label>
 						<div class="col-sm-10">
-							<!-- 在request中取对象 -->
 							<input type="text" th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
 								   th:value="${param.username}"
 								   id="username" name="username" placeholder="请输入您的账号!" required>
@@ -97,7 +96,7 @@
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height: 40px" class="mr-2"/>
+							<img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height:40px;" class="mr-2"/>
 							<a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">刷新验证码</a>
 						</div>
 					</div>				
@@ -188,8 +187,8 @@
 	<script th:src="@{/js/global.js}"></script>
 	<script>
 		function refresh_kaptcha() {
-			var path = CONTEXT_PATH + "/kaptcha?p="+Math.random();
-			$("#kaptcha").attr("src",path);
+			var path = CONTEXT_PATH + "/kaptcha?p=" + Math.random();
+			$("#kaptcha").attr("src", path);
 		}
 	</script>
 </body>
