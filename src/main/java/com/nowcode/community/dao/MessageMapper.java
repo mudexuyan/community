@@ -23,6 +23,20 @@ public interface MessageMapper {
     int selectLetterUnreadCount(int userId, String conversationId);
 
     int insertMessage(Message message);
+
     //修改消息状态，已读、删除
-    int updateStatus(List<Integer> ids,int status);
+    int updateStatus(List<Integer> ids, int status);
+
+    //查询某一个主题的最新通知
+    Message selectLatestNotice(int userId, String topic);
+
+    //查询某个主题包含的数量
+    int selectNoticeCount(int userId, String topic);
+
+    //查询某个主题未读通知的数量
+    int selectNoticeUnreadCount(int userId, String topic);
+
+    //查询某个主题包含的通知列表
+    List<Message> selectNotices(int userId, String topic, int offset, int limit);
+
 }
