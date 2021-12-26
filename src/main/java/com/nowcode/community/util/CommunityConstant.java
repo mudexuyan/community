@@ -30,4 +30,7 @@ public interface CommunityConstant {
 
     //系统用户id，用于发送通知
     int SYSTEM_USER_ID = 1;
+
+    //主题：发帖
+    String TOPIC_PUBLISH = "publish";
 }
