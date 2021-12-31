@@ -28,11 +28,11 @@ public interface CommunityConstant {
     //主题，关注
     String TOPIC_FOLLOW = "follow";
 
+    //消息队列监控topic
     /**
      * 系统用户id，用于发送通知
      */
     int SYSTEM_USER_ID = 1;
-
     /**
      * 主题：发帖
      */
@@ -41,7 +41,12 @@ public interface CommunityConstant {
      * 主题：删帖
      */
     String TOPIC_DELETE = "delete";
+    /*
+     *主题：分享
+     */
+    String TOPIC_SHARE = "share";
 
+    //权限控制
     /**
      * 权限：普通用户
      */
