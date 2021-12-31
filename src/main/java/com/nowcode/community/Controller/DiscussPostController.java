@@ -9,8 +9,10 @@ import com.nowcode.community.service.UserService;
 import com.nowcode.community.util.CommunityConstant;
 import com.nowcode.community.util.CommunityUtil;
 import com.nowcode.community.util.HostHolder;
+import com.nowcode.community.util.RedisKeyUtil;
 import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,9 @@ public class DiscussPostController implements CommunityConstant {
     @Autowired
     private EventProducer eventProducer;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String addDiscussPost(String title, String content) {
@@ -62,6 +67,10 @@ public class DiscussPostController implements CommunityConstant {
                 .setEntityType(ENTITY_TYPE_POST)
                 .setEntityId(discussPost.getId());
         eventProducer.fireEvent(event);
+
+        //计算帖子分数
+        String key = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(key,discussPost.getId());
 
         return CommunityUtil.getJSONString(0, "发布成功");
     }
@@ -168,10 +177,14 @@ public class DiscussPostController implements CommunityConstant {
                 .setEntityId(id);
         eventProducer.fireEvent(event);
 
+        //计算帖子分数
+        String key = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(key,id);
+
         return CommunityUtil.getJSONString(0);
     }
 
-    //加精
+    //删除
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     @ResponseBody
     public String setDelete(int id) {

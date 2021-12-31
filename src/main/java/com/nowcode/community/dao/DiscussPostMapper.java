@@ -10,7 +10,8 @@ import java.util.List;
 @Mapper
 public interface DiscussPostMapper {
 
-    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit);
+    //orderMode=0,按照创建时间排，1按照热度排
+    List<DiscussPost> selectDiscussPosts(int userId, int offset, int limit,int orderMode);
 
     //方法中只有一个参数，并且在<if>中使用，必须加别名
     // param用来提供别名
@@ -25,5 +26,7 @@ public interface DiscussPostMapper {
     int updateType(int id,int type);
 
     int updateStatus(int id,int status);
+
+    int updateScore(int id,double score);
 
 }

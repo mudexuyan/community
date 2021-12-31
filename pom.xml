@@ -47,8 +47,9 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.16</version>
+            <version>8.0.24</version>
         </dependency>
+
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -95,7 +96,28 @@
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            　<groupId>org.springframework</groupId>-->
+<!--            　<artifactId>spring-context-support</artifactId>-->
+<!--        </dependency>-->
 
+<!--        <dependency>-->
+<!--            <groupId>c3p0</groupId>-->
+<!--            <artifactId>c3p0</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
     <repositories>
@@ -121,6 +143,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
+
     </pluginRepositories>
 
     <build>
