@@ -51,7 +51,7 @@ public class CommentController implements CommunityConstant {
                 .setData("postId", discussPostId);
         //如果评论的是帖子
         if (comment.getEntityType() == ENTITY_TYPE_POST) {
-            DiscussPost target = discussPostService.findDiscussPossById(comment.getEntityId());
+            DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         } else if (comment.getEntityType() == ENTITY_TYPE_COMMENT) {//评论的是评论
             Comment target = commentService.findCommentById(comment.getEntityId());
